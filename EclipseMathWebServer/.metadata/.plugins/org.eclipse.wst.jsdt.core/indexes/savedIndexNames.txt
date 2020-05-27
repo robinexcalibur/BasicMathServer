@@ -1,0 +1,8 @@
+INDEX VERSION 1.4+D:\DocumentsD\Jobs\EclipseMathWebServer\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2309675592.index
+333433972.index
+1741306367.index
+631394177.index
+3971245710.index
+4049566706.index
+2218566833.index

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chat Web App</title>
+	
+	<script>
+	    var messagesWaiting = false;
+	    function getMessages(){
+	        if(!messagesWaiting){
+	            messagesWaiting = true;
+	            var xmlhttp = new XMLHttpRequest();
+	            xmlhttp.onreadystatechange=function(){
+	                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+	                    messagesWaiting = false;
+	                    document.getElementById("chats").innerHTML = xmlhttp.responseText;
+	                }
+	            }
+	            xmlhttp.open("GET", "/MathWebServer/math");
+	            xmlhttp.send();
+	        }
+	    }
+	    setInterval(getMessages, 1000);
+		
+		
+		function postChat(){
+			console.log("posting chat");	
+			var ajaxPostRequest = new XMLHttpRequest();
+			ajaxPostRequest.open("POST", "/MathWebServer/math");
+			ajaxPostRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			var equation = document.getElementById('name').value
+			ajaxPostRequest.send("equation=" + equation);
+		}
+	
+	</script>	
+</head>
+<body onload="getMessages()">
+	<h2>Math Calculator</h2>
+	<hr />
+	
+	<hr />
+	<p>Enter an equation into the box below in the form of "# operator #" and press Send. The solution will be calculated and posted below.</p>
+	<p>You can see equations others have sent as well!</p>
+	<input id="equation" type="text" name="equation" value="3 + 2">
+	<input type="submit" value="Send" onclick="postChat()">
+	
+	<div id="chats"></div>
+
+</body>
+</html>

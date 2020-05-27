@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simple Math Calculator</title>
+	
+	<script>
+	    var messageWaiting = false;
+	    function getEquations(){
+	        if(!messageWaiting){
+	            messageWaiting = true;
+	            var request = new XMLHttpRequest();
+	            request.onreadystatechange=function(){
+	                if (request.readyState==4 && request.status==200) {
+	                    messageWaiting = false;
+	                    document.getElementById("equa").innerHTML = request.responseText;
+	                }
+	            }
+	            request.open("GET", "/MathWebServer/math");
+	            request.send();
+	        }
+	    }
+	    setInterval(getEquations, 1000);
+		
+		
+		function postEquation(){
+			var post = new XMLHttpRequest();
+			post.open("POST", "/MathWebServer/math");
+			post.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			var equation = document.getElementById('equation').value
+			post.send("equation=" + encodeURIComponent(equation));
+		}
+	
+	</script>	
+</head>
+<body onload="getEquations()">
+	<div style="text-align: center;">
+		<h2>Math Calculator by Robin</h2>
+		<p>Enter an equation into the box below in the form of "# operator #" and press Send. The solution will be calculated and posted below.</p>
+		<p>You can see equations others have sent as well!</p>
+		<input id="equation" type="text" name="equation" value="3 + 2">
+		<input type="submit" value="Send" onclick="postEquation()">
+		
+		<div id="equa" style="padding:10px; border: 1px solid grey;width:50%;"></div>
+	</div>
+
+</body>
+</html>

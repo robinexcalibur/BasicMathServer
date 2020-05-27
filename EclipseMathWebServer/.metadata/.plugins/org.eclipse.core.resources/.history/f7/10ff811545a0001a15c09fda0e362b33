@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chat Web App</title>
+	
+	<script>
+	    var messagesWaiting = false;
+	    function getMessages(){
+	        if(!messagesWaiting){
+	            messagesWaiting = true;
+	            var xmlhttp = new XMLHttpRequest();
+	            xmlhttp.onreadystatechange=function(){
+	                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+	                    messagesWaiting = false;
+	                    var contentElement = document.getElementById("content");
+	                    contentElement.innerHTML = xmlhttp.responseText + contentElement.innerHTML;
+	                }
+	            }
+	            xmlhttp.open("GET", "/MathWebServer/math");
+	            xmlhttp.send();
+	        }
+	    }
+	    setInterval(getMessages, 1000);
+		
+		
+		function postChat(){
+			console.log("posting chat");	
+			var ajaxPostRequest = new XMLHttpRequest();
+			ajaxPostRequest.open("POST", "/MathWebServer/math");
+			ajaxPostRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			var name = document.getElementById('name').value
+			var message = document.getElementById('message').value
+			ajaxPostRequest.send("name=" + name + "&message=" + message);
+		}
+	
+	</script>	
+</head>
+<body>
+	<h1>Chat Web App</h1>
+	<hr />
+	<div id="chats"></div>
+	<hr />
+	
+	<input id="name" type="text" name="name" value="Ada">
+	<input id="message" type="text" name="message" value="Happy coding!">
+	<input type="submit" value="Send" onclick="postChat()">
+	<input type="submit" value="check" onclick="getMessages()">
+
+</body>
+</html>

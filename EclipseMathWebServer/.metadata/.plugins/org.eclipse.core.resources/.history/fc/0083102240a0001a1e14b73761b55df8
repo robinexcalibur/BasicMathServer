@@ -1,0 +1,51 @@
+package net.codejava;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class MathServlet
+ */
+@WebServlet("/MathServlet")
+public class MathServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public MathServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+    private List<String> messages = new ArrayList<String>();
+
+	@Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		String name = request.getParameter("name");
+		String message = request.getParameter("message");
+		String chatMessage = name + ": " + message;
+		messages.add(chatMessage);
+
+		response.sendRedirect("/math");
+		System.out.println("In doPost");
+	}
+	
+	@Override
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		for(int i = 0; i < messages.size(); i++){
+			response.getOutputStream().println("<p>" + messages.get(i) + "</p>");
+		}
+		System.out.println("In doGet");
+	}
+}
+
+
+
